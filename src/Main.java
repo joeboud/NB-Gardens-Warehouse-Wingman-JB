@@ -27,23 +27,33 @@ public class Main {
 		case 1:
 			System.out.println("-----Current Order List-----");
 			//list all orders
+			System.out.println("This Feature has not yet been implemented!");
 			break;
 		case 2:
 			System.out.println("-----Currently Unassigned Orders-----");
 			//list unassigned orders
+			System.out.println("This Feature has not yet been implemented!");
 			break;
 		case 3:
 			System.out.println("-----Assigned Orders-----");
 			//list assigned orders
+			System.out.println("This Feature has not yet been implemented!");
 			break;
 		case 4:
 			System.out.println("-----Incoming Purchase Orders-----");
 			System.out.println("Which Purchase Order has arrived?");
 			// List of PO ID numbers
+			System.out.println("This Feature has not yet been implemented!");
 			break;
 		case 5:
 			System.out.println("Generating random orders...");
 			//instantiate random class
+			System.out.println("This Feature has not yet been implemented!");
+			break;
+		default:
+			System.out.println("Please rerun the program and enter a number between 1-5");
+			break;
+			
 		}
 		
 		//function to update StatusTracker
