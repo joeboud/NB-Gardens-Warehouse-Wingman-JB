@@ -1,4 +1,5 @@
 import java.lang.String;
+import java.util.Random;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,14 +10,15 @@ public abstract class Order
 {
 	
 	// Fields here
-	int orderID;
+	Random rand = new Random();
+	int orderID = rand.nextInt(999);
 	Currency  orderValue;
+	String datePlaced;
 	String dateDelivered;
 	boolean archived;
 	boolean assigned;
-	String assignedTo;
-	int location[];			//Location is location[0] = section, location[1] = shelf, location [2] = row
-	Product[] products = new Product[6];
+	String assignedTo;		//Location is location[0] = section, location[1] = shelf, location [2] = row
+	OrderLine orderLine = new OrderLine();
 	
 	public Order(){
 	

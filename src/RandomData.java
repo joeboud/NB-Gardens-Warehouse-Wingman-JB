@@ -2,20 +2,18 @@ import java.util.Random;
 
 public class RandomData {
 
-	public CustomerOrder generateCO(CustomerOrder){
+	public CustomerOrder generateCO(CustomerOrder randCustomerOrder){
 		
 		Random rand = new Random();
-		int age = rand.nextInt(100);
-		boolean conviction = rand.nextBoolean();
-		int experience = rand.nextInt(25);
-		int aggression = rand.nextInt(100);
+		int noItems = rand.nextInt(20);
+		int quantity = rand.nextInt(10);
+		int customerid = rand.nextInt(120);
 		
-		driver1.setAge(age);
-		driver1.setConviction(conviction);
-		driver1.setExperience(experience);
-		driver1.setAggression(aggression);
+		randCustomerOrder.setNoItems(noItems);
+		randCustomerOrder.setRandQuantity(quantity);
+		randCustomerOrder.setRandCustomerID(customerid);
 		
-		return driver1;
+		return randCustomerOrder;
 		
 	}
 	

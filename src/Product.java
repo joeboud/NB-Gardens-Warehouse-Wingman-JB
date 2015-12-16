@@ -5,16 +5,17 @@ import java.util.Currency;
 public class Product {
 
 	int productID;
+	String name;
 	String type;
-	Currency value;
 	Currency price;
 	String colour;
 	String picture;
+	Location location = new Location();
 	
-	public Product(int productID, String type, Currency value, Currency price, String colour, String picture){
+	public Product(){
 		this.productID = productID;
+		this.name = name;
 		this.type = type;
-		this.value = value;
 		this.price = price;
 		this.colour = colour;
 		this.picture = picture;			//this will be a file address

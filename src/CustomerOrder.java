@@ -7,12 +7,34 @@ public class CustomerOrder extends Order
 	String address;
 	StatusTracker.Statuses status;
 	
+	
+	
 	public void timeLimit(){
 		
 		// generate latest despatch date and calculate time remaining
 		
 	}
+
+
+
+	// -------Random Order Generation------
 	
+	
+	public void setRandCustomerID(int customerid2) {
+		this.customerID = customerID;
+		// TODO Auto-generated method stub
+	}
+	public void setNoItems(int noItems) {
+		this.customerID = customerID;
+		
+		// TODO Auto-generated method stub
+	}
+	public void setRandQuantity(int quantity) {
+		this.customerID = customerID;
+		
+		// TODO Auto-generated method stub	
+	}
+	// ---------------------------------------
 
 	//Method to observe StatusTracker and update orderStatus
 
