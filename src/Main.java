@@ -7,6 +7,7 @@ public class Main {
 	public static void main(String[] args){
 		
 		int selectedOption;
+		String table;
 		
 		System.out.println("Welcome to W-W-W-WAREHOUSE W-W-W-WINGMAAAAAN!!!!! v1.0 (TM)");
 		System.out.println(" ");
@@ -22,12 +23,35 @@ public class Main {
 		
 		Scanner scan = new Scanner(System.in);
 		selectedOption = scan.nextInt();
+		DBReader2 dbread = new DBReader2();
 		
 		switch(selectedOption){
 		case 1:
 			System.out.println("-----Current Order List-----");
-			//list all orders
-			System.out.println("This Feature has not yet been implemented!");
+			
+			System.out.println("Please Select a table to read: 1 = Customer, 2 = Products, 3 = Stock List.");
+			
+			Scanner scan1 = new Scanner(System.in);
+			int option = scan1.nextInt();
+			
+				if (option == 1){
+				table = "customerdb";
+				System.out.println("Printing " +table);
+				dbread.setTable(table);
+				dbread.DBRead();
+				}
+				else if(option == 2){
+				table = "productdb";
+				System.out.println("Printing " +table);
+				dbread.setTable(table);
+				dbread.DBRead();
+				}
+				if(option == 3){
+				table = "stockdb";
+				System.out.println("Printing " +table);
+				dbread.setTable(table);
+				dbread.DBRead();
+				}
 			break;
 		case 2:
 			System.out.println("-----Currently Unassigned Orders-----");

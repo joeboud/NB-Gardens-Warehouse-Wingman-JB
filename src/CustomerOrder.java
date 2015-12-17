@@ -20,7 +20,7 @@ public class CustomerOrder extends Order
 	// -------Random Order Generation------
 	
 	
-	public void setRandCustomerID(int customerid2) {
+	public void setCustomerID(int customerid2) {
 		this.customerID = customerID;
 		// TODO Auto-generated method stub
 	}
@@ -29,11 +29,7 @@ public class CustomerOrder extends Order
 		
 		// TODO Auto-generated method stub
 	}
-	public void setRandQuantity(int quantity) {
-		this.customerID = customerID;
-		
-		// TODO Auto-generated method stub	
-	}
+
 	// ---------------------------------------
 
 	//Method to observe StatusTracker and update orderStatus

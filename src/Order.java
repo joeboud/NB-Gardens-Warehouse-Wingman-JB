@@ -12,13 +12,13 @@ public abstract class Order
 	// Fields here
 	Random rand = new Random();
 	int orderID = rand.nextInt(999);
-	Currency  orderValue;
+	int noItems = rand.nextInt(5);
+	double  orderValue;
 	String datePlaced;
-	String dateDelivered;
 	boolean archived;
 	boolean assigned;
-	String assignedTo;		//Location is location[0] = section, location[1] = shelf, location [2] = row
-	OrderLine orderLine = new OrderLine();
+	String assignedTo;		
+	OrderLine[] orderLine = new OrderLine[noItems];
 	
 	public Order(){
 	
