@@ -24,6 +24,7 @@ public class Main {
 		Scanner scan = new Scanner(System.in);
 		selectedOption = scan.nextInt();
 		DBReader2 dbread = new DBReader2();
+		dbread.DBConnect();
 		
 		switch(selectedOption){
 		case 1:
@@ -38,19 +39,19 @@ public class Main {
 				table = "customerdb";
 				System.out.println("Printing " +table);
 				dbread.setTable(table);
-				dbread.DBRead();
+				//dbread.DBRead(sql);
 				}
 				else if(option == 2){
 				table = "productdb";
 				System.out.println("Printing " +table);
 				dbread.setTable(table);
-				dbread.DBRead();
+				//dbread.DBRead(sql);
 				}
 				if(option == 3){
 				table = "stockdb";
 				System.out.println("Printing " +table);
 				dbread.setTable(table);
-				dbread.DBRead();
+				//dbread.DBRead(sql);
 				}
 			break;
 		case 2:
@@ -70,9 +71,9 @@ public class Main {
 			System.out.println("This Feature has not yet been implemented!");
 			break;
 		case 5:
-			System.out.println("Generating random orders...");
-			//instantiate random class
-			System.out.println("This Feature has not yet been implemented!");
+			System.out.println("----Random Order Generation----");
+			OrderGen generate = new OrderGen();
+			generate.GenOrders(dbread);				//nullPointerException
 			break;
 		default:
 			System.out.println("Please rerun the program and enter a number between 1-5");

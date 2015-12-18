@@ -9,16 +9,16 @@ import java.util.logging.Logger;
 
 public class DBReader2 {
 
-	Connection conn = null;
+	static Connection conn = null;
 	Statement stmt = null;
 	ResultSet rs = null;
 	
 	String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	 
-	String DB_URL = "jdbc:mysql://localhost:3306/nbgmaindb";
+	static String DB_URL = "jdbc:mysql://localhost:3306/nbgmaindb";
 
-	String USER = "joeboud";
-	String PASS = "t3cni110n";
+	static String USER = "joeboud";
+	static String PASS = "t3cni110n";
 
 	String table;
 	String sql;
@@ -30,11 +30,7 @@ public class DBReader2 {
 		this.table = table;
 	}
 	
-	
-	public ResultSet DBRead(String sql){
-		
-		System.out.println("DBReader Initialised");
-		
+	public static void DBConnect(){
 		try {
 			System.out.println("Attempting to connect to the database...");
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -44,6 +40,12 @@ public class DBReader2 {
 			System.out.println("Connection Failed!");
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public void DBRead(String sql){
+		
+		System.out.println("DBReader Initialised");
 		
 		if (table == "customerdb"){
 			
@@ -82,7 +84,7 @@ public class DBReader2 {
 				}
 			
 			   
-				  try {
+				  /*try {
 					
 				  if(rs!=null){
 					  rs.close();
@@ -97,7 +99,7 @@ public class DBReader2 {
 				  catch (SQLException ex){
 					Logger lgr = Logger.getLogger(Main.class.getName());
 					lgr.log(Level.WARNING, ex.getMessage(), ex);
-				  }
+				  } */
 			  
 			  
 		
@@ -139,7 +141,7 @@ public class DBReader2 {
 		}
 		
 		   
-			  try {
+			 /* try {
 				
 			  if (rs !=null){
 				  rs.close();
@@ -154,30 +156,35 @@ public class DBReader2 {
 			  catch (SQLException ex){
 				Logger lgr = Logger.getLogger(Main.class.getName());
 				lgr.log(Level.WARNING, ex.getMessage(), ex);
-			  }
+			  } */
 		  
 		  
 	
-if (table == "productdb"){
+			if (table == "productdb"){
 	
 	
-	try {
+				try {
 		 System.out.println("Reading: " + table);
 		 stmt = conn.createStatement();
 		 ResultSet rs = stmt.executeQuery(sql);
+		 
+		 for(int i = 0;i<numberofqueries;i++){ 
+			 orderform[i] = new Orderform(); 
+			 } 
+
 		
-		while (rs.next()) {
-			
+		 	while (rs.next()) {
+			System.out.println(sql);
 			int itemID = rs.getInt("id");
 			String productName = rs.getString("name");
 			double price = rs.getDouble("price");
 			String type = rs.getString("type");
 			String colour = rs.getString("colour");
 			String picture = rs.getString("picture");
-			System.out.println("ID: " + itemID + "\nProduct Name: " + productName + "\nPrice: £" + price + "\nType" + type + "\nColour: " + colour + "\nPicture: " + picture);
-
-			
-		}
+			System.out.println("ID: " + itemID + "\nProduct Name: " + productName + "\nPrice: £" + price + "\nType: " + type + "\nColour: " + colour + "\nPicture: " + picture);
+		 	System.out.println("The price is: £" + price);
+		 	OrderGen.setPrice(price);
+		 	}
 		
         if (rs.next()) {
             System.out.println(rs.getString(1));
@@ -192,7 +199,7 @@ if (table == "productdb"){
 	}
 	
 	   
-		  try {
+		 /* try {
 			
 		  if(rs!=null){
 			  rs.close();
@@ -207,12 +214,10 @@ if (table == "productdb"){
 		  catch (SQLException ex){
 			Logger lgr = Logger.getLogger(Main.class.getName());
 			lgr.log(Level.WARNING, ex.getMessage(), ex);
-		  }
+		  } */
 		  
 		  //String[] result = {Integer.toBinaryString(itemID), }
-		  return rs;
 	  
 	  
 	}
-	
 }

@@ -21,76 +21,87 @@ public class OrderGen {
 	String table;
 	
 	StatusTracker.Statuses status;
+	double price;
 	
 	public void setTable(String table) {
 		this.table = table;
 	}
 	
-	public void DBUpdate(){
-		
-		System.out.println("DBUpdater Initialised");
-		
-		try {
-			System.out.println("Attempting to connect to the database...");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			if (conn != null)
-				System.out.println("Connection Successfull!");
-		}catch (Exception e){
-			System.out.println("Connection Failed!");
-			e.printStackTrace();
-		}
-		
-		Random rand = new Random();
-		int noOfOrders = rand.nextInt();
-		int count1 = 1;
-		
-		for (count1 : noOfOrders : 1++){
-			
-			Random rand = new Random();
-			
-			int id = rand.nextInt();			//generate product
-			int quantity = rand.nextInt();		//generate quantity
-			
-			String sql = ("SELECT price FROM orderlinedb WHERE id = '" + id + "'");
-			DBReader2 inst = new DBReader2();
-			inst.DBRead(sql);
-			double price = inst.price;						//gets price from productdb
-			double lineValue = price*quantity;				//calculates total live value
-		}
-		
-		if (table == "orderdb"){
-			Random rand = new Random();
-			
-			int orderNo = rand.nextInt(999);		//generate order number
-			int customerID = rand.nextInt(120);		//generate customer
-			//date placed
-			int totalValue;							//calculate total value?
-			
-			// Summing an array. From Will
-			int sum = 0;
-			for(num : nums) {
-				totalValue += num;
-			}
-			
-			
-			int statusChoice = rand.nextInt(5);
-			switch (statusChoice){
-			case 1:
-				status = StatusTracker.Statuses.WAITING;
-			case 2:
-				status = StatusTracker.Statuses.PICKED;
-			case 3:
-				status = StatusTracker.Statuses.PACKED;
-			case 4:
-				status = StatusTracker.Statuses.DESPATCHED;
-			case 5:
-				status = StatusTracker.Statuses.ARCHIVED;
-			}
-			boolean assigned = rand.nextBoolean();
-			String assignedTo = "Alex";
-
-		}
-		
-
+	public void setPrice(double price){
+		this.price = price;
 	}
-}
+	
+	public void GenOrders(DBReader2 dbread){
+		
+		System.out.println("Generating Orders...");
+		
+		DBCreator creatorgen = new DBCreator();
+		Random rand = new Random();
+		
+		int orderNo = rand.nextInt(999);		//generate order number
+		int customerID = rand.nextInt(120);		//generate customer
+		double totalValue = 0;	
+
+		int noOfLines = rand.nextInt(6);
+		String table = "productdb";
+		dbread.setTable(table);
+		creatorgen.setTable(table);
+		
+		for (int count1 = 0 ; count1 <= noOfLines; count1++){
+			
+			
+			Random rand1 = new Random();
+			
+			System.out.println("Generating line " + count1);
+			
+			int id = (rand1.nextInt(107) + 10000);			//generate product
+			int quantity = rand.nextInt(10);		//generate quantity
+			
+			String sqlread = ("SELECT * FROM productdb WHERE id = " + id);
+			
+			dbread.DBRead(sqlread);
+			double price = dbread.price;						//gets price from productdb
+			double lineValue = price*quantity;				//calculates total live value
+			boolean porousWare = rand1.nextBoolean();
+			
+			if (porousWare){
+				lineValue = lineValue*1.3;
+			}
+			
+			totalValue = totalValue + lineValue;
+			
+			String sqlcreate = ("INSERT INTO orderlinedb VALUES " + orderNo + "," +  id + "," + quantity + ",'" + porousWare + "'," + lineValue);
+			creatorgen.DBCreate(sqlcreate);		//nullPointerException
+		}
+		
+		String assignedTo = "N/A";
+		
+		boolean assigned = rand.nextBoolean();
+		if (assigned){
+		assignedTo = "Alex";
+		}
+		
+		String datePlaced = "18/12/2015";
+		table = "orderdb";
+		creatorgen.setTable(table);
+		String sqlcreate = ("INSERT INTO orderdb VALUES " + orderNo + "," + customerID + ",'" + datePlaced + "'," + totalValue + ",'" + status + "','" + assigned + "','" + assignedTo + "'");
+		creatorgen.DBCreate(sqlcreate);
+		
+			
+		int statusChoice = rand.nextInt(5);
+		switch (statusChoice){
+		case 1:
+			status = StatusTracker.Statuses.WAITING;
+		case 2:
+			status = StatusTracker.Statuses.PICKED;
+		case 3:
+			status = StatusTracker.Statuses.PACKED;
+		case 4:
+			status = StatusTracker.Statuses.DESPATCHED;
+		case 5:
+			status = StatusTracker.Statuses.ARCHIVED;
+		}
+
+		}
+	}
+
