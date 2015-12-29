@@ -9,6 +9,8 @@ public class Main {
 		int selectedOption;
 		String table;
 		
+		DBConnect connection = new DBConnect();
+		
 		System.out.println("Welcome to W-W-W-WAREHOUSE W-W-W-WINGMAAAAAN!!!!! v1.0 (TM)");
 		System.out.println(" ");
 		System.out.println("-----------MENU-----------");
@@ -23,14 +25,13 @@ public class Main {
 		
 		Scanner scan = new Scanner(System.in);
 		selectedOption = scan.nextInt();
-		DBReader2 dbread = new DBReader2();
-		dbread.DBConnect();
+		
 		
 		switch(selectedOption){
 		case 1:
 			System.out.println("-----Current Order List-----");
 			
-			System.out.println("Please Select a table to read: 1 = Customer, 2 = Products, 3 = Stock List.");
+			/*System.out.println("Please Select a table to read: 1 = Customer, 2 = Products, 3 = Stock List.");
 			
 			Scanner scan1 = new Scanner(System.in);
 			int option = scan1.nextInt();
@@ -52,7 +53,7 @@ public class Main {
 				System.out.println("Printing " +table);
 				dbread.setTable(table);
 				//dbread.DBRead(sql);
-				}
+				} */
 			break;
 		case 2:
 			System.out.println("-----Currently Unassigned Orders-----");
@@ -73,7 +74,7 @@ public class Main {
 		case 5:
 			System.out.println("----Random Order Generation----");
 			OrderGen generate = new OrderGen();
-			generate.GenOrders(dbread);				//nullPointerException
+			generate.GenOrders(connection);				//nullPointerException
 			break;
 		default:
 			System.out.println("Please rerun the program and enter a number between 1-5");

@@ -1,7 +1,9 @@
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -10,13 +12,6 @@ public class OrderGen {
 	Connection conn = null;
 	Statement stmt = null;
 	ResultSet rs = null;
-	
-	String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	 
-	String DB_URL = "jdbc:mysql://localhost:3306/nbgmaindb";
-
-	String USER = "joeboud";
-	String PASS = "t3cni110n";
 
 	String table;
 	
@@ -31,18 +26,19 @@ public class OrderGen {
 		this.price = price;
 	}
 	
-	public void GenOrders(DBReader2 dbread){
+	public void GenOrders(DBConnect connection){
 		
 		System.out.println("Generating Orders...");
 		
-		DBCreator creatorgen = new DBCreator();
+		DBCreator creatorgen = new DBCreator();	//initialises the dbcreator
+		DBReader2 dbread = new DBReader2();
 		Random rand = new Random();
 		
 		int orderNo = rand.nextInt(999);		//generate order number
 		int customerID = rand.nextInt(120);		//generate customer
-		double totalValue = 0;	
+		BigDecimal totalValue = BigDecimal.ZERO;	
 
-		int noOfLines = rand.nextInt(6);
+		int noOfLines = (rand.nextInt(6) + 1);		//chooses max number order lines
 		String table = "productdb";
 		dbread.setTable(table);
 		creatorgen.setTable(table);
@@ -50,27 +46,31 @@ public class OrderGen {
 		for (int count1 = 0 ; count1 <= noOfLines; count1++){
 			
 			
-			Random rand1 = new Random();
-			
 			System.out.println("Generating line " + count1);
 			
-			int id = (rand1.nextInt(107) + 10000);			//generate product
-			int quantity = rand.nextInt(10);		//generate quantity
+			int id = (rand.nextInt(107) + 10000);			//generate product
+			int quantity = (rand.nextInt(10) + 1);		//generate quantity
 			
 			String sqlread = ("SELECT * FROM productdb WHERE id = " + id);
 			
 			dbread.DBRead(sqlread);
-			double price = dbread.price;						//gets price from productdb
-			double lineValue = price*quantity;				//calculates total live value
-			boolean porousWare = rand1.nextBoolean();
+			ArrayList<Comparable> results = dbread.results;
+			double getPrice = (double) results.get(2);						//gets price from productdb
+			BigDecimal price = BigDecimal.valueOf(getPrice);
+			System.out.println("Price:" + price);
+			BigDecimal lineValue = price.multiply( new BigDecimal(quantity));				//calculates total line value
+			System.out.println("Line value:" + lineValue);
+			boolean pW = rand.nextBoolean();
+			int porousware = (pW) ? 1 : 0;
+			double pwValue = 1.3;
 			
-			if (porousWare){
-				lineValue = lineValue*1.3;
+			if (porousware == 1){
+				lineValue = lineValue.multiply( new BigDecimal(pwValue));
 			}
 			
-			totalValue = totalValue + lineValue;
+			totalValue = totalValue.add(lineValue);
 			
-			String sqlcreate = ("INSERT INTO orderlinedb VALUES " + orderNo + "," +  id + "," + quantity + ",'" + porousWare + "'," + lineValue);
+			String sqlcreate = ("INSERT INTO orderlinedb VALUES ('" + orderNo + "','" +  id + "','" + quantity + "','" + porousware + "','" + lineValue + "')");
 			creatorgen.DBCreate(sqlcreate);		//nullPointerException
 		}
 		
@@ -81,10 +81,10 @@ public class OrderGen {
 		assignedTo = "Alex";
 		}
 		
-		String datePlaced = "18/12/2015";
+		String datePlaced = "27/12/2015";
 		table = "orderdb";
 		creatorgen.setTable(table);
-		String sqlcreate = ("INSERT INTO orderdb VALUES " + orderNo + "," + customerID + ",'" + datePlaced + "'," + totalValue + ",'" + status + "','" + assigned + "','" + assignedTo + "'");
+		String sqlcreate = ("INSERT INTO orderdb VALUES ('" + orderNo + "','" + customerID + "','" + datePlaced + "','" + totalValue + "','" + status + "','" + assigned + "','" + assignedTo + "')");
 		creatorgen.DBCreate(sqlcreate);
 		
 			

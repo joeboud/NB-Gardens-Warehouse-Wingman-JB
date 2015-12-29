@@ -3,6 +3,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +16,7 @@ public class DBReader2 {
 	
 	String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	 
-	static String DB_URL = "jdbc:mysql://localhost:3306/nbgmaindb";
+	static String DB_URL = "jdbc:mysql://localhost:3306/ngbmaindb";
 
 	static String USER = "joeboud";
 	static String PASS = "t3cni110n";
@@ -25,6 +26,7 @@ public class DBReader2 {
 	
 	//variables needed by queries
 	double price;
+	ArrayList<Comparable> results = new ArrayList<Comparable>();
 
 	public void setTable(String table) {
 		this.table = table;
@@ -43,7 +45,7 @@ public class DBReader2 {
 	}
 	
 	
-	public void DBRead(String sql){
+	public ArrayList<Comparable> DBRead(String sql){
 		
 		System.out.println("DBReader Initialised");
 		
@@ -167,23 +169,24 @@ public class DBReader2 {
 		 System.out.println("Reading: " + table);
 		 stmt = conn.createStatement();
 		 ResultSet rs = stmt.executeQuery(sql);
-		 
-		 for(int i = 0;i<numberofqueries;i++){ 
-			 orderform[i] = new Orderform(); 
-			 } 
 
 		
 		 	while (rs.next()) {
 			System.out.println(sql);
 			int itemID = rs.getInt("id");
+			results.add(itemID);
 			String productName = rs.getString("name");
+			results.add(productName);
 			double price = rs.getDouble("price");
+			results.add(price);
 			String type = rs.getString("type");
+			results.add(type);
 			String colour = rs.getString("colour");
+			results.add(colour);
 			String picture = rs.getString("picture");
+			results.add(picture);
 			System.out.println("ID: " + itemID + "\nProduct Name: " + productName + "\nPrice: £" + price + "\nType: " + type + "\nColour: " + colour + "\nPicture: " + picture);
 		 	System.out.println("The price is: £" + price);
-		 	OrderGen.setPrice(price);
 		 	}
 		
         if (rs.next()) {
@@ -197,6 +200,7 @@ public class DBReader2 {
 
         }
 	}
+			return results;
 	
 	   
 		 /* try {
