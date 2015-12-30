@@ -26,6 +26,8 @@ public class DBReader2 {
 	
 	//variables needed by queries
 	double price;
+	
+	ArrayList<ArrayList<Comparable>> result = new ArrayList<ArrayList<Comparable>>();
 	ArrayList<Comparable> results = new ArrayList<Comparable>();
 
 	public void setTable(String table) {
@@ -45,7 +47,7 @@ public class DBReader2 {
 	}
 	
 	
-	public ArrayList<Comparable> DBRead(String sql){
+	public ArrayList<ArrayList<Comparable>> DBRead(String sql){
 		
 		System.out.println("DBReader Initialised");
 		
@@ -185,6 +187,7 @@ public class DBReader2 {
 			results.add(colour);
 			String picture = rs.getString("picture");
 			results.add(picture);
+			result.add(results);
 			System.out.println("ID: " + itemID + "\nProduct Name: " + productName + "\nPrice: £" + price + "\nType: " + type + "\nColour: " + colour + "\nPicture: " + picture);
 		 	System.out.println("The price is: £" + price);
 		 	}
@@ -200,7 +203,46 @@ public class DBReader2 {
 
         }
 	}
-			return results;
+			if (table == "orderdb"){
+				
+				try {
+					 System.out.println("Reading: " + table);
+					 stmt = conn.createStatement();
+					 ResultSet rs = stmt.executeQuery(sql);
+					 
+					 while (rs.next()){
+						 
+						 System.out.println(sql);
+							int orderNo = rs.getInt("orderNo");
+							results.add(orderNo);
+							String custID = rs.getString("customerID");
+							results.add(custID);
+							String datePlaced = rs.getString("datePlaced");
+							results.add(datePlaced);
+							double totalValue = rs.getDouble("totalValue");
+							results.add(totalValue);
+							String state = rs.getString("state");
+							results.add(state);
+							Boolean assigned = rs.getBoolean("assigned");
+							results.add(assigned);
+							String assignedTo = rs.getString("assignedTo");
+							results.add(assignedTo);
+							result.add(results);
+					 }
+				        if (rs.next()) {
+				            System.out.println(rs.getString(1));
+				        }
+				}
+		        catch (SQLException ex) {
+		            Logger lgr = Logger.getLogger(Main.class.getName());
+		            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+
+		        }
+					 
+				}
+
+			
+			return result;
 	
 	   
 		 /* try {

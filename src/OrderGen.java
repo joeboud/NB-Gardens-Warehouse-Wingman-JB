@@ -54,7 +54,8 @@ public class OrderGen {
 			String sqlread = ("SELECT * FROM productdb WHERE id = " + id);
 			
 			dbread.DBRead(sqlread);
-			ArrayList<Comparable> results = dbread.results;
+			ArrayList<ArrayList<Comparable>> result = dbread.result;
+			ArrayList<Comparable> results = result.get(1);
 			double getPrice = (double) results.get(2);						//gets price from productdb
 			BigDecimal price = BigDecimal.valueOf(getPrice);
 			System.out.println("Price:" + price);
@@ -71,7 +72,7 @@ public class OrderGen {
 			totalValue = totalValue.add(lineValue);
 			
 			String sqlcreate = ("INSERT INTO orderlinedb VALUES ('" + orderNo + "','" +  id + "','" + quantity + "','" + porousware + "','" + lineValue + "')");
-			creatorgen.DBCreate(sqlcreate);		//nullPointerException
+			creatorgen.DBCreate(sqlcreate);
 		}
 		
 		String assignedTo = "N/A";
