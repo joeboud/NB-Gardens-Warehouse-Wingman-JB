@@ -29,33 +29,75 @@ public class Main {
 		selectedOption = scan.nextInt();
 		
 		
+		int noOfOrders;
 		switch(selectedOption){
 		case 1:
 			System.out.println("-----Current Order List-----");
 			
-			/*System.out.println("Please Select a table to read: 1 = Customer, 2 = Products, 3 = Stock List.");
+			DBReader2 listAll1 = new DBReader2();				//first instance of DBRead for order display
+			table = "orderdb";
+			listAll1.setTable(table);
+			String sql = "SELECT * FROM orderdb";
+			listAll1.DBRead(sql);
+			ArrayList<ArrayList<Comparable>> results1 = listAll1.result;
 			
+			System.out.println("---Currently Active Orders---");
+			noOfOrders = results1.size();
+			
+			for (int i = 0 ; i <= noOfOrders; i++){
+				ArrayList<Comparable> result1 = results1.get(i);
+				System.out.println("---Order: " + i + " ---");
+				System.out.println("Order Number: " + result1.get(0));
+				System.out.println("Customer ID: " + result1.get(1));
+				System.out.println("Date Placed: " + result1.get(2));
+				System.out.println("Total Value: " + result1.get(3));
+				System.out.println("Assigned to: " + result1.get(6));
+				System.out.println("Status: " + result1.get(4));
+				System.out.println("\n");
+			}
+			
+			System.out.println("Select an Order to view more details");
 			Scanner scan1 = new Scanner(System.in);
-			int option = scan1.nextInt();
+			int selectedOrder = scan1.nextInt();
+			ArrayList<Comparable> result1 = results1.get(selectedOrder);	//take single digit entry and translate to order number
+			int orderNo = (int) result1.get(0);
+			DBReader2 listAll2 = new DBReader2();				//second instance of DBRead for order line display
+			table = "orderlinedb";
+			listAll2.setTable(table);
+			sql = ("SELECT * FROM orderlinedb WHERE orderID= '" + orderNo + "'");
+			listAll2.DBRead(sql);
+			ArrayList<ArrayList<Comparable>> result2 = listAll2.result;
 			
-				if (option == 1){
-				table = "customerdb";
-				System.out.println("Printing " +table);
-				dbread.setTable(table);
-				//dbread.DBRead(sql);
-				}
-				else if(option == 2){
-				table = "productdb";
-				System.out.println("Printing " +table);
-				dbread.setTable(table);
-				//dbread.DBRead(sql);
-				}
-				if(option == 3){
-				table = "stockdb";
-				System.out.println("Printing " +table);
-				dbread.setTable(table);
-				//dbread.DBRead(sql);
-				} */
+			System.out.println("---Order Details---");
+			int noOfObjects = result2.size();
+			System.out.println("Product ID \t Quantity \t Porousware \t Line Value");
+			for (int i = 0 ; i <= noOfObjects; i++){
+				ArrayList<Comparable> results = result2.get(i);
+				System.out.println(results.get(1) + "\t" + results.get(2) + "\t" + results.get(3) + "\t" + results.get(4));
+			}
+			
+			DBReader2 listAll3 = new DBReader2();				//third instance of DBRead for customer detail display
+			table = "customerdb";
+			ArrayList<Comparable> custResult = results1.get(1);	//retrieve customer order number
+			String selectedCustomer = (String) custResult.get(1);
+			listAll3.setTable(table);
+			sql = ("SELECT * FROM customerdb WHERE customerID= '" + selectedCustomer + "'");
+			listAll3.DBRead(sql);									//use order number to retrieve customer details
+			ArrayList<ArrayList<Comparable>> results3 = listAll3.result;
+			
+			System.out.println("---Customer Details---");			//print customer detils
+			ArrayList<Comparable> result3 = results3.get(0);
+			System.out.println("Full Name: " + result3.get(1) + " " + result3.get(2));
+			System.out.println("Delivery Address: ");
+			System.out.println("\t" + result3.get(3));
+			System.out.println("\t" + result3.get(4));
+			System.out.println("\t" + result3.get(5));
+			System.out.println("\t" + result3.get(6));
+			System.out.println("Telephone Number: " + result3.get(7));
+			System.out.println("Email: " + result3.get(8));
+			System.out.println("\n");
+			
+			
 			break;
 		case 2:
 			System.out.println("-----Currently Unassigned Orders-----");
@@ -65,24 +107,24 @@ public class Main {
 			listUnassigned.setTable(table);
 			String unassignedSQL = "SELECT * FROM orderdb WHERE assigned = 0";
 			listUnassigned.DBRead(unassignedSQL);
-			ArrayList<ArrayList<Comparable>> result = listUnassigned.result;
+			ArrayList<ArrayList<Comparable>> results4 = listUnassigned.result;
 			
 			System.out.println("Currently unassigned orders:");
-			int noOfOrders = result.size();
+			noOfOrders = results4.size();
 			
 			for (int i = 0 ; i <= noOfOrders; i++){
-				ArrayList<Comparable> results = result.get(i);
-				System.out.println("Order Number:" + results.get(0));
-				System.out.println("Customer ID:" + results.get(1));
-				System.out.println("Date Placed:" + results.get(2));
-				System.out.println("Total Value:" + results.get(3));
+				ArrayList<Comparable> result4 = results4.get(i);
+				System.out.println("Order Number:" + result4.get(0));
+				System.out.println("Customer ID:" + result4.get(1));
+				System.out.println("Date Placed:" + result4.get(2));
+				System.out.println("Total Value:" + result4.get(3));
 			}
 			
 			System.out.println("Please enter the Order Number you would like to assign yourself to:");
-			Scanner scan1 = new Scanner(System.in);
-			int selectedOrder = scan1.nextInt();
+			Scanner scan2 = new Scanner(System.in);
+			selectedOrder = scan2.nextInt();
 			//use selectedOrder in SQL statement to update to assigned = true
-			String sql = ("UPDATE orderdb SET assigned= 'TRUE' WHERE orderNo= '" + selectedOrder + "'");
+			sql = ("UPDATE orderdb SET assigned= 'TRUE', assignedTo= '" + user + "' WHERE orderNo= '" + selectedOrder + "'");
 			DBCreator statusUpdate = new DBCreator();
 			statusUpdate.DBCreate(sql);
 			
@@ -91,19 +133,61 @@ public class Main {
 			break;
 		case 3:
 			System.out.println("-----Assigned Orders-----");
-			//list assigned orders
-			System.out.println("This Feature has not yet been implemented!");
+
+			DBReader2 listAssigned = new DBReader2();
+			table = "orderdb";
+			listAssigned.setTable(table);
+			String assignedSQL = "SELECT * FROM orderdb WHERE assigned = 1";
+			listAssigned.DBRead(assignedSQL);
+			ArrayList<ArrayList<Comparable>> results5 = listAssigned.result;
+			
+			System.out.println("Currently unassigned orders:");
+			noOfOrders = results5.size();
+			
+			for (int i = 0 ; i <= noOfOrders; i++){
+				ArrayList<Comparable> result5 = results5.get(i);
+				System.out.println("Order Number: " + result5.get(0));
+				System.out.println("Customer ID: " + result5.get(1));
+				System.out.println("Date Placed: " + result5.get(2));
+				System.out.println("Total Value: " + result5.get(3));
+				System.out.println("Assigned to: " + result5.get(6));
+				System.out.println("Status: " + result5.get(4));
+			}
+			
 			break;
 		case 4:
 			System.out.println("-----Incoming Purchase Orders-----");
-			System.out.println("Which Purchase Order has arrived?");
-			// List of PO ID numbers
-			System.out.println("This Feature has not yet been implemented!");
+			DBReader2 listPO = new DBReader2();
+			table = "podb";
+			listPO.setTable(table);
+			String poSQL = "SELECT * FROM podb";
+			listPO.DBRead(poSQL);
+			ArrayList<ArrayList<Comparable>> results6 = listPO.result;
+	
+			System.out.println("Current active Purchase Orders:");
+			noOfOrders = results6.size();
+			
+			for (int i = 0 ; i <= noOfOrders; i++){
+				ArrayList<Comparable> result6 = results6.get(i);
+				System.out.println("Order Number: " + result6.get(0));
+				System.out.println("Date Placed: " + result6.get(2));
+				System.out.println("Total Value: " + result6.get(1));
+				System.out.println("Ordered By: " + result6.get(3));
+			}
+			
+			System.out.println("Which Purchase Order has arrived? Please enter the Order Number: ");
+			Scanner scan3 = new Scanner(System.in);
+			selectedOrder = scan3.nextInt();
+			//use selectedOrder in SQL statement to update to arrivedS = true
+			sql = ("UPDATE purchaseorderdb SET arrived= 'TRUE' WHERE orderNo= '" + selectedOrder + "'");
+			DBCreator poStatusUpdate = new DBCreator();
+			poStatusUpdate.DBCreate(sql);
+			
 			break;
 		case 5:
 			System.out.println("----Random Order Generation----");
 			OrderGen generate = new OrderGen();
-			generate.GenOrders(connection);				//nullPointerException
+			generate.GenOrders(connection);
 			break;
 		default:
 			System.out.println("Please rerun the program and enter a number between 1-5");
