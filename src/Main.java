@@ -20,8 +20,9 @@ public class Main {
 		System.out.println("1. List Current Orders");
 		System.out.println("2. Assign Orders");
 		System.out.println("3. Update Order Status");
-		System.out.println("4. Process Purcase Order");
-		System.out.println("5. Generate Random Orders");
+		System.out.println("4. Create Purchase Order");
+		System.out.println("5. Process Purchase Order");
+		System.out.println("6. Generate Random Orders");
 		System.out.println(" ");
 		System.out.println("--------------------------");
 		
@@ -156,6 +157,34 @@ public class Main {
 			
 			break;
 		case 4:
+			System.out.println("-----Create a Purchase Order-----");
+			System.out.println("\n-----Items with low stock-----");
+			DBReader2 lowStockCheck = new DBReader2();
+			table = "stockdb";
+			lowStockCheck.setTable(table);
+			String stockSQL = "SELECT * FROM stockdb";
+			lowStockCheck.DBRead(stockSQL);
+			ArrayList<ArrayList<Comparable>> results6 = lowStockCheck.result;
+			int noOfItems = results6.size();
+			
+			for (int i = 0 ; i <= noOfItems; i++){
+				ArrayList<Comparable> result6 = results6.get(i);
+				int currentStock = (int) result6.get(1);
+				int threshold = (int) result6.get(3);
+				if (currentStock <= threshold){
+					System.out.println(result6.get(0));
+				}
+			}
+			System.out.println("Would you like to add these items to a purchase order?");
+			Scanner scan3 = new Scanner(System.in);
+			Boolean lowStockAdd = scan3.nextBoolean();
+			if (lowStockAdd){
+				//TODO Add these items to proto order
+			}
+			System.out.println("Please enter any aditional item numbers to add to the Purchase Order");
+			System.out.println("This feature is not yet implemented!");
+			break;
+		case 5:
 			System.out.println("-----Incoming Purchase Orders-----");
 			DBReader2 listPO = new DBReader2();
 			table = "podb";
@@ -184,10 +213,10 @@ public class Main {
 			poStatusUpdate.DBCreate(sql);
 			
 			break;
-		case 5:
+		case 6:
 			System.out.println("----Random Order Generation----");
 			OrderGen generate = new OrderGen();
-			generate.GenOrders(connection);
+			geSnerate.GenOrders(connection);
 			break;
 		default:
 			System.out.println("Please rerun the program and enter a number between 1-5");
