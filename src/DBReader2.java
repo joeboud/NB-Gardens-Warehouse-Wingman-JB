@@ -188,8 +188,8 @@ public class DBReader2 {
 			String picture = rs.getString("picture");
 			results.add(picture);
 			result.add(results);
-			System.out.println("ID: " + itemID + "\nProduct Name: " + productName + "\nPrice: £" + price + "\nType: " + type + "\nColour: " + colour + "\nPicture: " + picture);
-		 	System.out.println("The price is: £" + price);
+			System.out.println("ID: " + itemID + "\nProduct Name: " + productName + "\nPrice: " + price + "\nType: " + type + "\nColour: " + colour + "\nPicture: " + picture);
+		 	System.out.println("The price is: " + price);
 		 	}
 		
         if (rs.next()) {
