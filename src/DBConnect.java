@@ -11,7 +11,7 @@ public class DBConnect {
 	
 	String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	 
-	static String DB_URL = "jdbc:mysql://192.168.1.73:3306/ngbmaindb";
+	static String DB_URL = "jdbc:mysql://192.168.1.73:8888/ngbmaindb";
 
 	static String USER = "root";
 	static String PASS = "netbuilder";
