@@ -20,6 +20,7 @@ public class Wingman {
 	String user = "Alex";
 	
 	DBConnect connection = new DBConnect();
+	connection.Connect();
 	
 	System.out.println("Welcome to W-W-W-WAREHOUSE W-W-W-WINGMAAAAAN!!!!! v1.0 (TM)");
 	System.out.println(" ");
@@ -52,7 +53,7 @@ public class Wingman {
 		System.out.println("---Currently Active Orders---");
 		noOfOrders = results1.size();
 		
-		for (int i = 0 ; i <= noOfOrders; i++){
+		for (int i = 0 ; i < noOfOrders; i++){
 			ArrayList<Comparable> result1 = results1.get(i);
 			System.out.println("---Order: " + i + " ---");
 			System.out.println("Order Number: " + result1.get(0));
@@ -72,14 +73,17 @@ public class Wingman {
 		DBReader2 listAll2 = new DBReader2();				//second instance of DBRead for order line display
 		table = "orderlinedb";
 		listAll2.setTable(table);
-		sql = ("SELECT * FROM orderlinedb WHERE orderID= '" + orderNo + "'");
+		
+		sql = ("SELECT * FROM orderlinedb WHERE orderNo= '" + orderNo + "'");
+		System.out.println(sql);
 		listAll2.DBRead(sql);
+		
 		ArrayList<ArrayList<Comparable>> result2 = listAll2.result;
 		
 		System.out.println("---Order Details---");
 		int noOfObjects = result2.size();
 		System.out.println("Product ID \t Quantity \t Porousware \t Line Value");
-		for (int i = 0 ; i <= noOfObjects; i++){
+		for (int i = 0 ; i < noOfObjects; i++){
 			ArrayList<Comparable> results = result2.get(i);
 			System.out.println(results.get(1) + "\t" + results.get(2) + "\t" + results.get(3) + "\t" + results.get(4));
 		}
@@ -89,11 +93,11 @@ public class Wingman {
 		ArrayList<Comparable> custResult = results1.get(1);	//retrieve customer order number
 		String selectedCustomer = (String) custResult.get(1);
 		listAll3.setTable(table);
-		sql = ("SELECT * FROM customerdb WHERE customerID= '" + selectedCustomer + "'");
+		sql = ("SELECT * FROM customerdb WHERE id= '" + selectedCustomer + "'");
 		listAll3.DBRead(sql);									//use order number to retrieve customer details
 		ArrayList<ArrayList<Comparable>> results3 = listAll3.result;
 		
-		System.out.println("---Customer Details---");			//print customer detils
+		System.out.println("---Customer Details---");			//print customer details
 		ArrayList<Comparable> result3 = results3.get(0);
 		System.out.println("Full Name: " + result3.get(1) + " " + result3.get(2));
 		System.out.println("Delivery Address: ");
@@ -223,7 +227,7 @@ public class Wingman {
 	case 6:
 		System.out.println("----Random Order Generation----");
 		OrderGen generate = new OrderGen();
-		generate.GenOrders(connection);
+		generate.GenOrders();
 		break;
 	default:
 		System.out.println("Please rerun the program and enter a number between 1-5");

@@ -34,7 +34,7 @@ public class DBReader2 {
 		this.table = table;
 	}
 	
-	public static void DBConnect(){
+	/* public static void DBConnect(){
 		try {
 			System.out.println("Attempting to connect to the database...");
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -44,7 +44,7 @@ public class DBReader2 {
 			System.out.println("Connection Failed!");
 			e.printStackTrace();
 		}
-	}
+	} */
 	
 	
 	public ArrayList<ArrayList<Comparable>> DBRead(String sql){
@@ -53,6 +53,7 @@ public class DBReader2 {
 		
 		if (table == "customerdb"){
 			
+			conn = DBConnect.conn;
 			
 			try {
 				 System.out.println("Reading: " + table);
@@ -62,15 +63,25 @@ public class DBReader2 {
 				while (rs.next()) {
 					
 					int customerID = rs.getInt("id");	
+					results.add(customerID);
 					String firstName = rs.getString("firstName");
+					results.add(firstName);
 					String secondName = rs.getString("secondName");
+					results.add(secondName);
 					String addressLine1 = rs.getString("addressLine1");
+					results.add(addressLine1);
 					String addressLine2 = rs.getString("addressLine2");
+					results.add(addressLine2);
 					String county = rs.getString("county");
+					results.add(county);
 					String postcode = rs.getString("postcode");
+					results.add(postcode);
 					String telNo = rs.getString("telNo");
+					results.add(telNo);
 					String email = rs.getString("email");
-					System.out.println("ID: " + customerID + "\nFirst Name: " + firstName + "\nSecond Name: " + secondName + "\nAddress:" + "\n" + addressLine1 + "\n" + addressLine2 + "\n" + county + "\n" + postcode +"\nTelephone Number: " + telNo + "\nemail: " + email);
+					results.add(email);
+					result.add(results);
+					//System.out.println("ID: " + customerID + "\nFirst Name: " + firstName + "\nSecond Name: " + secondName + "\nAddress:" + "\n" + addressLine1 + "\n" + addressLine2 + "\n" + county + "\n" + postcode +"\nTelephone Number: " + telNo + "\nemail: " + email);
 
 					
 				}
@@ -109,6 +120,7 @@ public class DBReader2 {
 		
 	if (table == "stockdb"){
 		
+		conn = DBConnect.conn;
 		
 		try {
 			 System.out.println("Reading: " + table);
@@ -166,6 +178,7 @@ public class DBReader2 {
 	
 			if (table == "productdb"){
 	
+				conn = DBConnect.conn;
 	
 				try {
 		 System.out.println("Reading: " + table);
@@ -205,6 +218,8 @@ public class DBReader2 {
 	}
 			if (table == "orderdb"){
 				
+				conn = DBConnect.conn;
+				
 				try {
 					 System.out.println("Reading: " + table);
 					 stmt = conn.createStatement();
@@ -227,6 +242,42 @@ public class DBReader2 {
 							results.add(assigned);
 							String assignedTo = rs.getString("assignedTo");
 							results.add(assignedTo);
+							result.add(results);
+					 }
+				        if (rs.next()) {
+				            System.out.println(rs.getString(1));
+				        }
+				}
+		        catch (SQLException ex) {
+		            Logger lgr = Logger.getLogger(Main.class.getName());
+		            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+
+		        }
+					 
+				}
+			
+			if (table == "orderlinedb"){
+				
+				conn = DBConnect.conn;
+				
+				try {
+					 System.out.println("Reading: " + table);
+					 stmt = conn.createStatement();
+					 ResultSet rs = stmt.executeQuery(sql);
+					 
+					 while (rs.next()){
+						 
+						 System.out.println(sql);
+							int orderNo = rs.getInt("orderNo");
+							results.add(orderNo);
+							String id = rs.getString("id");
+							results.add(id);
+							String quantity = rs.getString("quantity");
+							results.add(quantity);
+							double porousware = rs.getDouble("porousware");
+							results.add(porousware);
+							String lineValue = rs.getString("lineValue");
+							results.add(lineValue);
 							result.add(results);
 					 }
 				        if (rs.next()) {

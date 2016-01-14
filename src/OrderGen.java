@@ -26,7 +26,7 @@ public class OrderGen {
 		this.price = price;
 	}
 	
-	public void GenOrders(DBConnect connection){
+	public void GenOrders(){
 		
 		System.out.println("Generating Orders...");
 		
@@ -53,9 +53,10 @@ public class OrderGen {
 			
 			String sqlread = ("SELECT * FROM productdb WHERE id = " + id);
 			
+			//dbread.DBConnect();
 			dbread.DBRead(sqlread);
 			ArrayList<ArrayList<Comparable>> result = dbread.result;
-			ArrayList<Comparable> results = result.get(1);
+			ArrayList<Comparable> results = result.get(0);
 			double getPrice = (double) results.get(2);						//gets price from productdb
 			BigDecimal price = BigDecimal.valueOf(getPrice);
 			System.out.println("Price:" + price);
