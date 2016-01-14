@@ -13,7 +13,7 @@ public class DBConnect {
 	 
 	static String DB_URL = "jdbc:mysql://192.168.1.73:8888/ngbmaindb";
 
-	static String USER = "joeboud";
+	static String USER = "root";
 	static String PASS = "t3cni110n";
 
 		public void Connect(){
