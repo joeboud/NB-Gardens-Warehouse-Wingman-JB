@@ -15,7 +15,7 @@ public class DBCreator {
 	
 	String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	 
-	String DB_URL = "jdbc:mysql://localhost:3306/nbgmaindb";
+	String DB_URL = "jdbc:mysql://192.168.1.73:3306/nbgmaindb";
 
 	String USER = "joeboud";
 	String PASS = "t3cni110n";
