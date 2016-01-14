@@ -53,9 +53,9 @@ public class Wingman {
 		System.out.println("---Currently Active Orders---");
 		noOfOrders = results1.size();
 		
-		for (int i = 0 ; i < noOfOrders; i++){
+		for (int i = 0 ; i < noOfOrders;){
 			ArrayList<Comparable> result1 = results1.get(i);
-			System.out.println("---Order: " + i + " ---");
+			System.out.println("---Order: " + (i+1) + " ---");
 			System.out.println("Order Number: " + result1.get(0));
 			System.out.println("Customer ID: " + result1.get(1));
 			System.out.println("Date Placed: " + result1.get(2));
@@ -63,6 +63,7 @@ public class Wingman {
 			System.out.println("Assigned to: " + result1.get(6));
 			System.out.println("Status: " + result1.get(4));
 			System.out.println("\n");
+			i++;
 		}
 		
 		System.out.println("Select an Order to view more details");
