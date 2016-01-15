@@ -46,7 +46,7 @@ public class Wingman {
 		DBReader2 listAll1 = new DBReader2();				//first instance of DBRead for order display
 		table = "orderdb";
 		listAll1.setTable(table);
-		String sql = "SELECT * FROM orderdb";
+		String sql = "SELECT * FROM orderdb WHERE state= 'WAITING'";
 		listAll1.DBRead(sql);
 		ArrayList<ArrayList<Comparable>> results1 = listAll1.result;
 		
@@ -54,14 +54,16 @@ public class Wingman {
 		noOfOrders = results1.size();
 		
 		for (int i = 0 ; i < noOfOrders;){
+			
 			ArrayList<Comparable> result1 = results1.get(i);
+			int arrsize = result1.size();
 			System.out.println("---Order: " + (i+1) + " ---");
-			System.out.println("Order Number: " + result1.get(0));
-			System.out.println("Customer ID: " + result1.get(1));
-			System.out.println("Date Placed: " + result1.get(2));
-			System.out.println("Total Value: " + result1.get(3));
-			System.out.println("Assigned to: " + result1.get(6));
-			System.out.println("Status: " + result1.get(4));
+			System.out.println("Order Number: " + result1.get((i*arrsize)));
+			System.out.println("Customer ID: " + result1.get((1+(i*arrsize))));
+			System.out.println("Date Placed: " + result1.get((2+(i*arrsize))));
+			System.out.println("Total Value: " + result1.get((3+(i*arrsize))));
+			System.out.println("Assigned to: " + result1.get((6+(i*arrsize))));
+			System.out.println("Status: " + result1.get((4+(i*arrsize))));
 			System.out.println("\n");
 			i++;
 		}

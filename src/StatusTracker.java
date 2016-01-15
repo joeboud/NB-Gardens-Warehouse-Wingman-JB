@@ -4,7 +4,11 @@ import java.util.Observable;
 public class StatusTracker extends Observable{
 
 	public enum Statuses{
-		WAITING,PICKED,PACKED,DESPATCHED,ARCHIVED
+		WAITING,PICKED,PACKED,DESPATCHED,ARCHIVED;
+		
+		public static Statuses getRandom() {
+	        return values()[(int) (Math.random() * values().length)];
+	    }
 	}	
 	
 	Statuses status = Statuses.WAITING;

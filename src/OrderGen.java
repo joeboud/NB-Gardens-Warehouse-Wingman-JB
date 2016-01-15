@@ -78,9 +78,18 @@ public class OrderGen {
 		
 		String assignedTo = "N/A";
 		
-		boolean assigned = rand.nextBoolean();
+		Boolean assigned;
+		
+		status = StatusTracker.Statuses.getRandom();
+		
+		if (status == StatusTracker.Statuses.WAITING){
+			assigned = false;
+		}
+		else{
+			assigned = true;
+		}
 		if (assigned){
-		assignedTo = "Alex";
+			assignedTo = "Alex";
 		}
 		
 		String datePlaced = "27/12/2015";
@@ -89,21 +98,6 @@ public class OrderGen {
 		String sqlcreate = ("INSERT INTO orderdb VALUES ('" + orderNo + "','" + customerID + "','" + datePlaced + "','" + totalValue + "','" + status + "','" + assigned + "','" + assignedTo + "')");
 		creatorgen.DBCreate(sqlcreate);
 		
-			
-		int statusChoice = rand.nextInt(5);
-		switch (statusChoice){
-		case 1:
-			status = StatusTracker.Statuses.WAITING;
-		case 2:
-			status = StatusTracker.Statuses.PICKED;
-		case 3:
-			status = StatusTracker.Statuses.PACKED;
-		case 4:
-			status = StatusTracker.Statuses.DESPATCHED;
-		case 5:
-			status = StatusTracker.Statuses.ARCHIVED;
-		}
-
 		}
 	}
 
